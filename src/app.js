@@ -4,8 +4,9 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
-const contestsRouter = require('./routers/contests');
 const authRouter = require('./routers/auth');
+const contestsRouter = require('./routers/contests');
+const submissionsRouter = require('./routers/submissions');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(cors());
 
 app.use('/api/auth', authRouter);
 app.use('/api/contests', contestsRouter);
+app.use('/api/subs', submissionsRouter);
 
 app.use(function errorHandler(error, req, res, next) {
   let response;
