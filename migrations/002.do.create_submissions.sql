@@ -1,6 +1,5 @@
 CREATE TABLE contest_submissions (
   id SERIAL PRIMARY KEY,
-  user_id INTEGER, -- TODO: make this a foreign key
   href TEXT NOT NULL,
   date_created TIMESTAMP DEFAULT now() NOT NULL
 );
