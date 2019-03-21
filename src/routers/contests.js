@@ -1,7 +1,10 @@
 const express = require('express');
 const contestsService = require('../services/contests');
 const submissionsService = require('../services/submissions');
+const { requireAuth } = require('../middleware/jwt-auth');
 const contestsRouter = express.Router();
+
+contestsRouter.use(requireAuth);
 
 contestsRouter
   .route('/')
