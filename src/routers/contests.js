@@ -4,7 +4,7 @@ const submissionsService = require('../services/submissions');
 const { requireAuth } = require('../middleware/jwt-auth');
 const contestsRouter = express.Router();
 
-contestsRouter.use(requireAuth);
+//contestsRouter.use(requireAuth);
 
 contestsRouter
   .route('/')
@@ -29,10 +29,12 @@ contestsRouter
             submissionsService.getSoundCloudTracks(subs)
               .then(json => {
                 // TODO: manually making this an array might be an issue in the future
-                contest[0].subs = [json];
+                contest[0].subs = json ? json : [];
                 res.json(contest[0]);
-              });
-          });
+              })
+              .catch(err => { console.log(err); });
+          })
+          .catch(err => { console.log(err); });
       })
       .catch(next);
   });

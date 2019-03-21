@@ -11,15 +11,15 @@ const submissionsService = {
 
   getSoundCloudTracks(submissions) {
     return Promise.all(
-      submissions.map(s => fetch(`http://api.soundcloud.com/resolve?url=${s.href}&client_id=${SC_CLIENT_ID}`))
+      submissions.map(s => fetch(`http://api.soundcloud.com/resolve?url=${s.href}&client_id=${SC_CLIENT_ID}`).then(res => res.json()))
     )
-      .then(([tracks]) => tracks.json());
-
-    // return new Promise((resolve, reject) => {
-    //   setTimeout(() => {
-    //     resolve(submissions);
-    //   }, 100);
-    // }); 
+      .then((tracks) => {
+        if(typeof tracks !== 'undefined') {
+          return tracks;
+        } else {
+          return false;
+        }
+      });
   },
 };
 
