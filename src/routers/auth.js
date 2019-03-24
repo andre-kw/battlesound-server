@@ -7,9 +7,10 @@ authRouter
   .use(express.json())
   .post('/register', (req, res, next) => {
     authService.createUser(req.app.get('db'), req.body)
-      .then(res => {
+      .then(response => {
         return res.send(204);
-      });
+      })
+      .catch(next);
   });
 
 authRouter

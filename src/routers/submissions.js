@@ -15,17 +15,14 @@ submissionsRouter
     const contestId = req.body.contest_id;
     const userId = req.body.user_id;
 
-    submissionsService.postSubmission(req.app.get('db'), url, contestId, userId)
-      .then(success => {
-        if(isUrl(url)) {
-          res.send(200);
-        } else {
-          res.send(400);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    if(isUrl(url)) {
+      submissionsService.postSubmission(req.app.get('db'), url, contestId, userId)
+        .then(response => {
+          res.send(204);
+        });
+    } else {
+      res.send(400);
+    }
   });
 
 module.exports = submissionsRouter;
