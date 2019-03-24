@@ -25,14 +25,8 @@ contestsRouter
         // append submissions
         submissionsService.getAllSubmissions(req.app.get('db'), req.params.contest_id)
           .then(subs => {
-            // get data from soundcloud api
-            submissionsService.getSoundCloudTracks(subs)
-              .then(json => {
-                // TODO: manually making this an array might be an issue in the future
-                contest[0].subs = json ? json : [];
-                res.json(contest[0]);
-              })
-              .catch(err => { console.log(err); });
+            contest[0].subs = subs;
+            res.json(contest[0]);
           })
           .catch(err => { console.log(err); });
       })
