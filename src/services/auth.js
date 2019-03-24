@@ -25,6 +25,14 @@ const authService = {
       algorithms: ['HS256'],
     });
   },
+
+  createUser(db, data) {
+    return db('users')
+      .insert({
+        username: data.username,
+        password: bcrypt.hashSync(data.password, 10)
+      });
+  },
 };
 
 module.exports = authService;

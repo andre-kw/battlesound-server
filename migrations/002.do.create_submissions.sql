@@ -1,6 +1,10 @@
 CREATE TABLE contest_submissions (
   id SERIAL PRIMARY KEY,
   href TEXT NOT NULL,
+  sc_name TEXT NOT NULL,
+  sc_username TEXT NOT NULL,
+  sc_track_name TEXT NOT NULL,
+  sc_track_id INTEGER NOT NULL,
   date_created TIMESTAMP DEFAULT now() NOT NULL
 );
 
