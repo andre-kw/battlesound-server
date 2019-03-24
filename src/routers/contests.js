@@ -39,4 +39,15 @@ contestsRouter
       .catch(next);
   });
 
+contestsRouter
+  .use(express.json())
+  .use(requireAuth)
+  .route('/create')
+  .post((req, res, next) => {
+    contestsService.createContest(req.app.get('db'), req.body)
+      .then(id => {
+        return res.json({id});
+      });
+  });
+
 module.exports = contestsRouter;
