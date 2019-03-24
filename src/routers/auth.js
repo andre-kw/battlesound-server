@@ -11,7 +11,8 @@ authRouter
     const payload = { user_id: req.user.id };
 
     res.send({
-      authToken: authService.createJwt(sub, payload)
+      authToken: authService.createJwt(sub, payload),
+      id: req.user.id
     });
   });
 

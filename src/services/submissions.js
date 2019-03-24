@@ -13,13 +13,21 @@ const submissionsService = {
     return Promise.all(
       submissions.map(s => fetch(`http://api.soundcloud.com/resolve?url=${s.href}&client_id=${SC_CLIENT_ID}`).then(res => res.json()))
     )
-      .then((tracks) => {
+      .then(tracks => {
         if(typeof tracks !== 'undefined') {
           return tracks;
         } else {
           return false;
         }
+      })
+      .catch(err => {
+        console.log(err);
       });
+  },
+
+  postSubmission(db, href, contest_id, user_id) {
+    return db('contest_submissions')
+      .insert({href, contest_id, user_id});
   },
 };
 
