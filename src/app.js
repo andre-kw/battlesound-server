@@ -7,6 +7,7 @@ const { NODE_ENV } = require('./config');
 const authRouter = require('./routers/auth');
 const contestsRouter = require('./routers/contests');
 const submissionsRouter = require('./routers/submissions');
+const votesRouter = require('./routers/votes');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cors());
 app.use('/api/auth', authRouter);
 app.use('/api/contests', contestsRouter);
 app.use('/api/submissions', submissionsRouter);
+app.use('/api/votes', votesRouter);
 
 app.use(function errorHandler(error, req, res, next) {
   let response;
