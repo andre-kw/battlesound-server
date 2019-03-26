@@ -11,7 +11,19 @@ contestsRouter
   .get((req, res, next) => {
     contestsService.getAllContests(req.app.get('db'))
       .then(contests => {
-        res.json(contests);
+        contestsService.getCountsForContests(req.app.get('db'), contests)
+          .then(withCounts => {
+            console.log(withCounts);
+            let obj = contests.map(c => {
+              let promise1 = withCounts[0].find(wc => wc.contest_id === c.id) || [];
+              let promise2 = withCounts[1].find(wc => wc.contest_id === c.id) || [];
+              c.count_subs = promise1.subs || 0;
+              c.count_votes = promise2.votes || 0;
+              return c;
+            });
+
+            res.json(obj);
+          });
       })
       .catch(next);
   });

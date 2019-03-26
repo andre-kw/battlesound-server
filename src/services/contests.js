@@ -7,6 +7,23 @@ const contestsService = {
       .select('*');
   },
 
+  getCountsForContests(db, contests) {
+    let ids = contests.map(c => parseInt(c.id));
+
+    return Promise.all([
+      db
+        .from('contest_submissions')
+        .groupBy('contest_id')
+        .select('contest_id')
+        .count('id as subs'),
+      db
+        .from('submission_votes')
+        .groupBy('contest_id')
+        .select('contest_id')
+        .count('id as votes')
+    ]);
+  },
+
   getContestById(db, contestId) {
     return db
       .from('contests')
