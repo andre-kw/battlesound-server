@@ -22,6 +22,7 @@ votesRouter
             .then(participants => {
               // check if voter is not participating
               let isParticipating = false;
+              console.log(participants);
 
               participants.forEach(p => {
                 if(p.user_id === req.body.user_id) 
@@ -36,8 +37,11 @@ votesRouter
                   .where('user_id', req.body.user_id)
                   .then(voter => {
                     console.log(voter);
-                    if(! voter) {
-                      return res.json({error: null, success: true});
+                    if(voter.length === 0) {
+                      votesService.createVote(req.app.get('db'), contest[0].id, req.body.user_id, req.body.submission_id)
+                        .then(response => {
+                          return res.json({success: true});
+                        });                     
                     } else {
                       return res.json({error: 'You have already voted in this contest.'});
                     }
