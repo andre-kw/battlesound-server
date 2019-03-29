@@ -4,6 +4,7 @@ const contestsService = {
   getAllContests(db) {
     return db
       .from('contests')
+      .orderBy('date_created', 'desc')
       .select('*');
   },
 
