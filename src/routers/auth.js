@@ -22,7 +22,8 @@ authRouter
 
     res.send({
       authToken: authService.createJwt(sub, payload),
-      id: req.user.id
+      id: req.user.id,
+      username: req.user.username
     });
   });
 

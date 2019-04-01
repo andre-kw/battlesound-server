@@ -24,6 +24,20 @@ const submissionsService = {
           });
       })
       .catch(err => { console.log(err); });
+
+    /* db
+      .from('submission_votes')
+      .select('*')
+      .where({contest_id, user_id})
+      .then(hasVoted => {
+        // make sure user hasn't voted before submitting a link
+        if(! hasVoted[0]) {
+          
+        } else {
+          return res.json({error: 'You cannot participate in a contest you\'ve voted in.'});
+        }
+      })
+      .catch(next); */
   },
 };
 

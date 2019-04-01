@@ -41,7 +41,8 @@ votesRouter
                       votesService.createVote(req.app.get('db'), contest[0].id, req.body.user_id, req.body.submission_id)
                         .then(response => {
                           return res.json({success: true});
-                        });                     
+                        })
+                        .catch(next);                     
                     } else {
                       return res.json({error: 'You have already voted in this contest.'});
                     }
@@ -55,7 +56,8 @@ votesRouter
           // contest is not active
           return res.json({error: 'This contest is not active.'});
         }
-      });
+      })
+      .catch(next);
   });
 
 module.exports = votesRouter;
