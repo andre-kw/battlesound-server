@@ -1,4 +1,5 @@
 const express = require('express');
+const xss = require('xss');
 const contestsService = require('../services/contests');
 const submissionsService = require('../services/submissions');
 const { requireAuth } = require('../middleware/jwt-auth');
@@ -13,7 +14,8 @@ contestsRouter
       .then(contests => {
         contestsService.getCountsForContests(req.app.get('db'), contests)
           .then(withCounts => {
-            console.log(withCounts);
+            // append the vote count (withCounts[0]) and submission count (withCounts[1]) to
+            // the contests object from .getAllContests()
             let obj = contests.map(c => {
               let promise1 = withCounts[0].find(wc => wc.contest_id === c.id) || [];
               let promise2 = withCounts[1].find(wc => wc.contest_id === c.id) || [];
@@ -22,7 +24,22 @@ contestsRouter
               return c;
             });
 
-            res.json(obj);
+            // append the user's votes if GET variable `user` is present
+            if(req.query.user) {
+              contestsService.getUserVotes(req.app.get('db'), parseInt(xss(req.query.user)))
+                .then(withVotes => {
+                  obj = obj.map(c => {
+                    c.user_vote = withVotes.find(wv => wv.contest_id === c.id) || null;
+                    return c;
+                  });
+
+                  console.log(obj);
+
+                  res.json(obj);
+                });
+            } else {
+              res.json(obj);
+            }
           });
       })
       .catch(next);

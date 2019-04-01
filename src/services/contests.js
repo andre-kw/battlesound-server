@@ -32,6 +32,13 @@ const contestsService = {
       .where('id', contestId);
   },
 
+  getUserVotes(db, user_id) {
+    return db
+      .from('submission_votes')
+      .select('*')
+      .where({user_id});
+  },
+
   createContest(db, data) {
     return db('contests')
       .insert({
